@@ -14,16 +14,19 @@ This project implements Shamir's Secret Sharing algorithm to reconstruct secrets
 ## Usage
 
 ### Method 1: Using file argument
+
 ```bash
 node index.js <input-file.json>
 ```
 
 Example:
+
 ```bash
 node index.js sample.json
 ```
 
 ### Method 2: Using stdin (pipe input)
+
 ```bash
 # On Linux/Mac
 cat sample.json | node index.js
@@ -33,19 +36,21 @@ type sample.json | node index.js
 ```
 
 ### Method 3: Using the npm script
+
 ```bash
 npm start < sample.json
 ```
 
 ### Method 4: Using utils.js functions directly
+
 ```javascript
-const { solveShamirSecretSharing, solveFromFile } = require('./utils');
+const { solveShamirSecretSharing, solveFromFile } = require("./utils");
 
 // From JSON object
 const result = solveShamirSecretSharing(jsonData);
 
 // From file
-const result = solveFromFile('input.json');
+const result = solveFromFile("input.json");
 ```
 
 ## Input Format
@@ -54,26 +59,26 @@ The JSON input should follow this structure:
 
 ```json
 {
-    "keys": {
-        "n": 4,    // Total number of points available
-        "k": 3     // Minimum points needed to reconstruct (polynomial degree + 1)
-    },
-    "1": {
-        "base": "10",
-        "value": "4"
-    },
-    "2": {
-        "base": "2",
-        "value": "111"
-    },
-    "3": {
-        "base": "10",
-        "value": "12"
-    },
-    "6": {
-        "base": "4",
-        "value": "213"
-    }
+  "keys": {
+    "n": 4, // Total number of points available
+    "k": 3 // Minimum points needed to reconstruct (polynomial degree + 1)
+  },
+  "1": {
+    "base": "10",
+    "value": "4"
+  },
+  "2": {
+    "base": "2",
+    "value": "111"
+  },
+  "3": {
+    "base": "10",
+    "value": "12"
+  },
+  "6": {
+    "base": "4",
+    "value": "213"
+  }
 }
 ```
 
@@ -83,9 +88,9 @@ The program outputs JSON with:
 
 ```json
 {
-    "secret": 3,               // The reconstructed secret
-    "points_used": 3,          // Number of points used in calculation
-    "polynomial_degree": 2     // Degree of the polynomial
+  "secret": 3, // The reconstructed secret
+  "points_used": 3, // Number of points used in calculation
+  "polynomial_degree": 2 // Degree of the polynomial
 }
 ```
 
@@ -99,6 +104,7 @@ The program outputs JSON with:
 ## Testing
 
 Run the test script to verify functionality:
+
 ```bash
 node test.js
 ```
