@@ -3,34 +3,38 @@ const fs = require("fs");
 
 // Function to convert a number from any base to decimal
 function convertToDecimal(value, base) {
-  return parseInt(value, base);
+  return BigInt(parseInt(value, base));
 }
 
-// Lagrange interpolation to find polynomial coefficients
+// Lagrange interpolation to find polynomial coefficients using BigInt for precision
 function lagrangeInterpolation(points, k) {
   // We only need k points to reconstruct the polynomial
   const selectedPoints = points.slice(0, k);
 
   // Calculate the constant term (secret) using Lagrange interpolation
-  let secret = 0;
+  let secret = BigInt(0);
 
   for (let i = 0; i < selectedPoints.length; i++) {
-    let xi = selectedPoints[i].x;
+    let xi = BigInt(selectedPoints[i].x);
     let yi = selectedPoints[i].y;
 
     // Calculate Lagrange basis polynomial Li(0)
-    let li = 1;
+    let numerator = BigInt(1);
+    let denominator = BigInt(1);
+    
     for (let j = 0; j < selectedPoints.length; j++) {
       if (i !== j) {
-        let xj = selectedPoints[j].x;
-        li = (li * (0 - xj)) / (xi - xj);
+        let xj = BigInt(selectedPoints[j].x);
+        numerator = numerator * (BigInt(0) - xj);
+        denominator = denominator * (xi - xj);
       }
     }
 
-    secret += yi * li;
+    // Add this term to the secret
+    secret += (yi * numerator) / denominator;
   }
 
-  return Math.round(secret);
+  return secret.toString();
 }
 
 // Function to solve the polynomial reconstruction problem
